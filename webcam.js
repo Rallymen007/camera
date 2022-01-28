@@ -187,7 +187,7 @@ var Webcam = {
 					self.dispatch('live');
 					self.flip();
 				};
-				video.src = window.URL.createObjectURL( stream ) || stream;
+				video.srcObject = stream;
 			})
 			.catch( function(err) {
 				return self.dispatch('error', err);

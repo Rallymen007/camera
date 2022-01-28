@@ -23,6 +23,10 @@ modules: [
 
 ````
 
+Configuration settings include: 
+defaultDisplay: boolean, whether or not the camera should be shown at startup before any command is said
+hideMessage: boolean, hides the command message
+
 Here is a list of the supported Email providers:
 
 Service names are case insensitive

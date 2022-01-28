@@ -14,7 +14,9 @@ Module.register("camera", {
 				user: '<name@email.com>',
 				pass: '<password>'
 			}
-		}
+		},
+		defaultDisplay: false,
+		hideMessage: false
 	},
     
 	display: false,
@@ -32,8 +34,14 @@ Module.register("camera", {
 	},
 
     start: function() { 
-		this.message = "Say 'SELFIE' to make a selfie or 'HIDE CAMERA' to hide";
+		if(hideMessage){
+			this.message = "";
+		} else {
+			this.message = "Say 'SELFIE' to make a selfie or 'HIDE CAMERA' to hide";
+		}
         this.sendSocketNotification('INIT_MAILER', this.config);
+		
+		this.display = defaultDisplay;
     },
 
 	makeSelfie: function(){
