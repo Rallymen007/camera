@@ -166,32 +166,44 @@ var Webcam = {
 			elem.appendChild( video );
 			this.video = video;
 			
-			// ask user for access to their camera
-			var self = this;
-			this.mediaDevices.getUserMedia({
-				"audio": false,
-				"video": this.params.constraints || {
-					mandatory: {
-						minWidth: this.params.dest_width,
-						minHeight: this.params.dest_height
-					}
-				}
-			})
-			.then( function(stream) {
-				// got access, attach stream to video
-				video.onloadedmetadata = function(e) {
-					self.stream = stream;
-					self.loaded = true;
-					self.live = true;
-					self.dispatch('load');
-					self.dispatch('live');
-					self.flip();
-				};
-				video.srcObject = stream;
-			})
-			.catch( function(err) {
-				return self.dispatch('error', err);
-			});
+			// quick and dirty device filter
+			let filter = this.params.filter;
+			if(this.params.filter){
+				console.log(this.params.filter);
+			}
+			
+			navigator.mediaDevices.enumerateDevices().then(devices =>{
+				let filtered = devices.filter(dev => dev.label.indexOf(filter) > -1);
+				
+				// ask user for access to their camera
+				var self = this;
+				this.mediaDevices.getUserMedia({
+					"audio": false,
+					"video": /*this.params.constraints || {
+						mandatory: {
+							minWidth: this.params.dest_width,
+							minHeight: this.params.dest_height
+						}
+					}*/ {deviceId: filtered[0].deviceId}
+				})
+				.then( function(stream) {
+					console.log(stream);
+					// got access, attach stream to video
+					video.onloadedmetadata = function(e) {
+						self.stream = stream;
+						self.loaded = true;
+						self.live = true;
+						self.dispatch('load');
+						self.dispatch('live');
+						self.flip();
+					};
+					video.srcObject = stream;
+				})
+				.catch( function(err) {
+					return self.dispatch('error', err);
+				});
+			});					
+			
 		}
 		else {
 			// flash fallback

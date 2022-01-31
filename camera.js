@@ -16,7 +16,10 @@ Module.register("camera", {
 			}
 		},
 		defaultDisplay: false,
-		hideMessage: false
+		hideMessage: false,
+		width: 640,
+		height: 480,
+		filter: null
 	},
     
 	display: false,
@@ -34,14 +37,14 @@ Module.register("camera", {
 	},
 
     start: function() { 
-		if(hideMessage){
+		if(this.config.hideMessage){
 			this.message = "";
 		} else {
 			this.message = "Say 'SELFIE' to make a selfie or 'HIDE CAMERA' to hide";
 		}
         this.sendSocketNotification('INIT_MAILER', this.config);
-		
-		this.display = defaultDisplay;
+		console.log(this.config);
+		this.display = this.config.defaultDisplay;
     },
 
 	makeSelfie: function(){
@@ -110,8 +113,8 @@ Module.register("camera", {
 				wrapper.appendChild(this.camera);
 
 				Webcam.set({
-					width: 640,
-					height: 480,
+					width: this.config.width,
+					height: this.config.height,
 					image_format: 'jpeg',
 					jpeg_quality: 90,
 					constraints: {
@@ -122,7 +125,8 @@ Module.register("camera", {
 						optional: [
 							{ minFrameRate: 60 }
 						]
-					}
+					},
+					filter: this.config.filter
 				});
 
 				Webcam.attach(this.cameraPreview);
