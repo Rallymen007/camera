@@ -174,17 +174,23 @@ var Webcam = {
 			
 			navigator.mediaDevices.enumerateDevices().then(devices =>{
 				let filtered = devices.filter(dev => dev.label.indexOf(filter) > -1);
+				let videoConstraint = this.params.constraints || {
+						mandatory: {
+							minWidth: this.params.dest_width,
+							minHeight: this.params.dest_height
+						}
+					};
+				if(filtered.length === 0){
+					console.error("Filter unsuccessful, not filtering");
+				} else {
+					videoConstraint = {deviceId: filtered[0].deviceId}
+				}
 				
 				// ask user for access to their camera
 				var self = this;
 				this.mediaDevices.getUserMedia({
 					"audio": false,
-					"video": /*this.params.constraints || {
-						mandatory: {
-							minWidth: this.params.dest_width,
-							minHeight: this.params.dest_height
-						}
-					}*/ {deviceId: filtered[0].deviceId}
+					"video": videoConstraint
 				})
 				.then( function(stream) {
 					console.log(stream);
