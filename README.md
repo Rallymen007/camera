@@ -1,13 +1,12 @@
 # Module: Camera
+
 The `camera` module allows you to display a webcamera video feed on your MagicMirror. The webcamera needs to be connected to the Raspberry Pi via USB. 
 This module also allows you to make "selfie" photo snapshots with the camera and send them via specified email account.
-
 
 ## Using the module
 
 To use `camera` module, add it to the modules array in the `config/config.js` file with the following settings:
-````javascript
-
+```javascript
 modules: [
     module: 'camera',
     position: 'top_center',
@@ -20,8 +19,7 @@ modules: [
 			}
 		}
 ]
-
-````
+```
 
 Here is a list of the supported Email providers:
 
@@ -73,34 +71,31 @@ In order to enable this functionality you will need to create a trained model fo
 
 Download the gerenated models and copy them into the root of the MagicMirror directory. 
 
-
-
-
 ## Setup
 
 * Clone the module into your `modules` folder in the MagicMirror's code location by running this command:
 
-````
-git clone https://github.com/alexyak/camera.git
-````
+```bash
+git clone https://github.com/Rallymen007/camera
+```
 
 * Navigate to the camera sub folder: ```` cd camera ```` and run the following command to install node.js dependencies:
 
-````
+```bash
 npm install
-````
+```
 
 * If you have not already done so install the [Voice Control module](https://github.com/alexyak/voicecontrol) by running the following command in the `modules' folder:
 
-````
+```bash
 git clone https://github.com/alexyak/voicecontrol.git
-````
+```
 
 Check the README.md for the Voice Control module to configure it for the MagicMirror.
 
 * In order to use the generated models mentioned above, update the configuration section for the `voicecontrol` module to look like this:
 
-````
+```javascript
 {
 	module: 'voicecontrol',
 	position: 'bottom_left',
@@ -127,4 +122,4 @@ Check the README.md for the Voice Control module to configure it for the MagicMi
 		]
 	}
 }
-````
+```
